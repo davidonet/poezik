@@ -32,8 +32,16 @@
 
           <div class="space-y-2 text-sm">
             <div>
-              <span class="font-medium">Animateurs :</span>
-              {event.teachers.length}/{2}
+              {#if event.teachers.length > 0}
+                <div class="text-terracotta-700 mb-2 text-sm">
+                  <span class="font-medium">Animé par :</span>
+                  {#each event.teachers as teacher, j}
+                    <span>
+                      {teacher}{j < event.teachers.length - 1 ? ', ' : ''}
+                    </span>
+                  {/each}
+                </div>
+              {/if}
             </div>
             <div>
               <span class="font-medium">Participants :</span>

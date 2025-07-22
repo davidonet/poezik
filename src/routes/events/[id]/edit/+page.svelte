@@ -37,8 +37,9 @@
         name="description"
         rows="4"
         required
-        value={form?.description ?? data.event.description}
-        class="focus:border-terracotta-500 focus:ring-terracotta-500 mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none"></textarea>
+        class="focus:border-terracotta-500 focus:ring-terracotta-500 mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none">
+        {form?.description ?? data.event.description}
+      </textarea>
     </div>
 
     <div>
@@ -79,5 +80,4 @@
       </a>
     </div>
   </form>
-</div>
 </div>

@@ -15,6 +15,7 @@
   let userIsRegistered = $derived(
     userIsTeacher || userIsParticipant || userIsWaitlisted
   )
+  let canEdit = $derived(data.user?.isAdmin || userIsTeacher)
 </script>
 
 <div class="mx-auto max-w-4xl p-6">
@@ -26,27 +27,31 @@
           {format(new Date(data.event.date), 'PPPp', { locale: fr })}
         </p>
       </div>
-      {#if data.user?.isAdmin}
+      {#if canEdit}
         <div class="flex gap-2">
           <a
             href="/events/{data.event._id}/edit"
             class="text-terracotta-600 hover:text-terracotta-800 px-4 py-2 text-sm font-medium">
             Modifier
           </a>
-          <form method="POST" action="?/delete" use:enhance>
-            <button
-              type="submit"
-              class="text--terracotta--600 hover:text--terracotta--800 px-4 py-2 text-sm font-medium"
-              onclick={(e) => {
-                if (
-                  !confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')
-                ) {
-                  e.preventDefault()
-                }
-              }}>
-              Supprimer
-            </button>
-          </form>
+          {#if data.user?.isAdmin}
+            <form method="POST" action="?/delete" use:enhance>
+              <button
+                type="submit"
+                class="text--terracotta--600 hover:text--terracotta--800 px-4 py-2 text-sm font-medium"
+                onclick={(e) => {
+                  if (
+                    !confirm(
+                      'Êtes-vous sûr de vouloir supprimer cet événement ?'
+                    )
+                  ) {
+                    e.preventDefault()
+                  }
+                }}>
+                Supprimer
+              </button>
+            </form>
+          {/if}
         </div>
       {/if}
     </div>
