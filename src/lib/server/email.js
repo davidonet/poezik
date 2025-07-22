@@ -1,13 +1,16 @@
 import { env } from '$env/dynamic/private'
-const { EMAIL_FROM, PUBLIC_BASE_URL, SCW_DEFAULT_PROJECT_ID, SCW_SECRET_KEY } =
-  env
+const {
+  EMAIL_FROM,
+  VERCEL_PROJECT_PRODUCTION_URL,
+  SCW_DEFAULT_PROJECT_ID,
+  SCW_SECRET_KEY,
+} = env
 
 const SCALEWAY_EMAIL_API =
   'https://api.scaleway.com/transactional-email/v1alpha1/regions/fr-par/emails'
 
 export async function sendMagicLinkEmail(email, token) {
-  const magicLink = `${PUBLIC_BASE_URL || 'http://localhost:5173'}/auth/verify?token=${token}`
-
+  const magicLink = `${VERCEL_PROJECT_PRODUCTION_URL || 'http://localhost:5173'}/auth/verify?token=${token}`
   const emailData = {
     from: {
       email: EMAIL_FROM || 'noreply@poezik.com',
