@@ -1,6 +1,23 @@
 import { env } from '$env/dynamic/private'
 import { MongoClient } from 'mongodb'
-
+const options = {
+  maxPoolSize: 10,
+  serverSelectionTimeoutMS: 30000,
+  socketTimeoutMS: 30000,
+  maxIdleTimeMS: 30000,
+  connectTimeoutMS: 30000,
+  // Gestion des connexions pour serverless
+  minPoolSize: 0,
+  maxConnecting: 2,
+  // Configuration TLS explicite
+  tls: true,
+  tlsInsecure: false,
+  // Forcer IPv4
+  family: 4,
+  // Retry logic
+  retryWrites: true,
+  retryReads: true,
+}
 class MongoPoezik {
   constructor() {
     this.db = null
@@ -9,7 +26,7 @@ class MongoPoezik {
 
   init() {
     if (!this.db) {
-      this._client = new MongoClient(env.MONGODB_URI)
+      this._client = new MongoClient(env.MONGODB_URI, options)
       this.db = this._client.db('poezik')
     }
   }
