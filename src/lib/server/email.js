@@ -1,9 +1,6 @@
-import {
-  EMAIL_FROM,
-  PUBLIC_BASE_URL,
-  SCW_DEFAULT_PROJECT_ID,
-  SCW_SECRET_KEY,
-} from '$env/static/private'
+import { env } from '$env/dynamic/private'
+const { EMAIL_FROM, PUBLIC_BASE_URL, SCW_DEFAULT_PROJECT_ID, SCW_SECRET_KEY } =
+  env
 
 const SCALEWAY_EMAIL_API =
   'https://api.scaleway.com/transactional-email/v1alpha1/regions/fr-par/emails'

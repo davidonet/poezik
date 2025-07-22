@@ -1,11 +1,12 @@
-import { MONGODB_URI } from '$env/static/private'
+import { building } from '$app/environment'
+import { env } from '$env/dynamic/private'
 import { MongoClient } from 'mongodb'
 
 let client
 let clientPromise
 
-if (!global._mongoClientPromise) {
-  client = new MongoClient(MONGODB_URI)
+if (!building && !global._mongoClientPromise) {
+  client = new MongoClient(env.MONGODB_URI)
   global._mongoClientPromise = client.connect()
 }
 

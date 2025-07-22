@@ -4,8 +4,6 @@
 
   let { data } = $props()
 
-  console.log('Page data:', data)
-
   let scrollContainer = $state()
   let canScrollLeft = $state(false)
   let canScrollRight = $state(false)
@@ -43,37 +41,19 @@
 </script>
 
 <div class="min-h-screen">
-  <div class="mx-auto max-w-7xl px-6 py-12">
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
     <div class="mb-12 text-center">
-      <h1 class="text-terracotta-900 mb-4 text-8xl font-bold">Poezik</h1>
-      <p class="mx-auto max-w-2xl text-xl text-gray-700">
+      <h1
+        class="text-terracotta-900 mb-4 text-4xl font-bold sm:text-6xl lg:text-8xl">
+        Poezik
+      </h1>
+      <p class="mx-auto max-w-2xl text-lg text-gray-700 sm:text-xl">
         Un espace de Laboratoiree créatif autour de <br />
         l'ECRITURE, de la VOIX et du MOUVEMENT.
       </p>
     </div>
 
-    {#if data.user}
-      <div class="mb-12 text-center">
-        <p class="text-gray-700">
-          Bon retour, <span class="font-semibold">{data.user.name}</span>
-           !
-        </p>
-        <div class="mt-4 space-x-4">
-          <a
-            href="/profile"
-            class="text-terracotta-600 hover:text-terracotta-800">
-            Modifier le profil
-          </a>
-          {#if data.user.isAdmin}
-            <a
-              href="/admin"
-              class="text-terracotta-600 hover:text-terracotta-800">
-              Panneau d'administration
-            </a>
-          {/if}
-        </div>
-      </div>
-    {:else}
+    {#if !data.user}
       <div class="mb-12 text-center">
         <a
           href="/auth/login"
@@ -96,7 +76,7 @@
             <button
               onclick={() => scrollCarousel('left')}
               aria-label="Défiler vers la gauche"
-              class="absolute top-1/2 left-0 z-10 -translate-y-1/2 rounded-full bg-white/90 p-2 shadow-lg backdrop-blur hover:bg-white">
+              class="absolute top-1/2 left-0 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full bg-white/90 p-2 shadow-lg backdrop-blur hover:bg-white sm:flex">
               <svg
                 class="h-6 w-6"
                 fill="none"
@@ -115,7 +95,7 @@
             <button
               onclick={() => scrollCarousel('right')}
               aria-label="Défiler vers la droite"
-              class="absolute top-1/2 right-0 z-10 -translate-y-1/2 rounded-full bg-white/90 p-2 shadow-lg backdrop-blur hover:bg-white">
+              class="absolute top-1/2 right-0 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full bg-white/90 p-2 shadow-lg backdrop-blur hover:bg-white sm:flex">
               <svg
                 class="h-6 w-6"
                 fill="none"
@@ -132,11 +112,11 @@
 
           <div
             bind:this={scrollContainer}
-            class="scrollbar-hide flex gap-6 overflow-x-auto pb-4"
+            class="scrollbar-hide flex gap-4 overflow-x-auto px-1 pb-4 sm:gap-6"
             style="scroll-snap-type: x mandatory">
             {#each data.events as event, i}
               <div
-                class="event-card bg-cream-400 w-80 flex-none rounded-lg p-6 shadow-lg {i ===
+                class="event-card bg-cream-400 w-72 flex-none rounded-lg p-4 shadow-lg sm:w-80 sm:p-6 {i ===
                 0
                   ? 'border-terracotta-600 border-2 '
                   : 'border border-gray-200'}"
@@ -185,10 +165,10 @@
                   </div>
                 </div>
 
-                <div class="flex gap-2">
+                <div class="flex flex-col gap-2 sm:flex-row">
                   <a
                     href="/events/{event._id}"
-                    class="border-terracotta-600 text-terracotta-600 hover:bg-terracotta-50 flex-1 rounded-md border px-4 py-2 text-center transition-colors">
+                    class="border-terracotta-600 text-terracotta-600 hover:bg-terracotta-50 flex-1 rounded-md border px-4 py-2 text-center text-sm transition-colors">
                     Voir les détails
                   </a>
                   {#if data.user}
@@ -203,7 +183,7 @@
                         class="flex-1">
                         <button
                           type="submit"
-                          class="bg-terracotta-600 hover:bg-terracotta-700 w-full rounded-md px-4 py-2 text-white transition-colors">
+                          class="bg-terracotta-600 hover:bg-terracotta-700 w-full rounded-md px-4 py-2 text-sm text-white transition-colors">
                           {event.participants.length >= 14
                             ? "Rejoindre la liste d'attente"
                             : "S'inscrire"}
@@ -211,7 +191,7 @@
                       </form>
                     {:else}
                       <span
-                        class="flex-1 rounded-md bg-green-100 px-4 py-2 text-center text-green-800">
+                        class="flex-1 rounded-md bg-green-100 px-4 py-2 text-center text-sm text-green-800">
                         Inscrit
                       </span>
                     {/if}
