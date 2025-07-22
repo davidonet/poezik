@@ -36,7 +36,7 @@
       </p>
     </div>
 
-    <div>
+    <div class="invisible">
       <label for="photo" class="block text-sm font-medium text-gray-700">
         URL de la photo
       </label>
