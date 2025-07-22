@@ -11,7 +11,7 @@ const options = {
   maxConnecting: 2,
   // Configuration TLS explicite
   tls: true,
-  tlsInsecure: true,
+  tlsInsecure: false,
   // Forcer IPv4
   family: 4,
   // Retry logic
