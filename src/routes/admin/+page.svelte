@@ -97,7 +97,7 @@
           <a
             href="/events/new"
             class="bg-terracotta-600 hover:bg-terracotta-700 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white">
-            Nouvel Laboratoire
+            Nouveau Laboratoire
           </a>
         </div>
       </div>
