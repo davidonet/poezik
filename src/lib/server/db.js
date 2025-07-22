@@ -26,7 +26,7 @@ class MongoPoezik {
 
   init() {
     if (!this.db) {
-      this._client = new MongoClient(env.MONGODB_URI, options)
+      this._client = new MongoClient(env.MONGODB_URI)
       this.db = this._client.db('poezik')
     }
   }
