@@ -12,7 +12,7 @@
 </script>
 
 <div class="mx-auto max-w-2xl p-6">
-  <h1 class="mb-8 text-3xl font-bold">Modifier l'événement</h1>
+  <h1 class="mb-8 text-3xl font-bold">Modifier l'Laboratoire</h1>
 
   <form method="POST" use:enhance class="space-y-6">
     <div>
@@ -63,7 +63,9 @@
 
     {#if form?.success}
       <div class="rounded-md bg-green-50 p-4">
-        <p class="text-sm text-green-800">Événement mis à jour avec succès !</p>
+        <p class="text-sm text-green-800">
+          Laboratoire mis à jour avec succès !
+        </p>
       </div>
     {/if}
 
@@ -71,7 +73,7 @@
       <button
         type="submit"
         class="bg-terracotta-600 hover:bg-terracotta-700 focus:ring-terracotta-500 inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm focus:ring-2 focus:ring-offset-2 focus:outline-none">
-        Mettre à jour l'événement
+        Mettre à jour l'Laboratoire
       </button>
       <a
         href="/events/{data.event._id}"

@@ -91,13 +91,13 @@
 
     <div>
       <div class="mb-6 flex items-center justify-between">
-        <h2 class="text-2xl font-semibold">Événements</h2>
+        <h2 class="text-2xl font-semibold">Laboratoires</h2>
         <div class="flex items-center gap-4">
           <p class="text-gray-600">Total: {data.events.length}</p>
           <a
             href="/events/new"
             class="bg-terracotta-600 hover:bg-terracotta-700 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white">
-            Nouvel événement
+            Nouvel Laboratoire
           </a>
         </div>
       </div>
@@ -121,7 +121,7 @@
                     type="submit"
                     class="text--terracotta--600 hover:text--terracotta--800 text-sm"
                     onclick={(e) => {
-                      if (!confirm('Supprimer cet événement ?'))
+                      if (!confirm('Supprimer cet Laboratoire ?'))
                         e.preventDefault()
                     }}>
                     Supprimer
@@ -158,7 +158,7 @@
         {/each}
 
         {#if data.events.length === 0}
-          <p class="text-gray-500">Aucun événement créé pour le moment.</p>
+          <p class="text-gray-500">Aucun Laboratoire créé pour le moment.</p>
         {/if}
       </div>
     </div>

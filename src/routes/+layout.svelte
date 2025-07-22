@@ -13,7 +13,7 @@
           <a
             href="/events"
             class="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900">
-            Événements
+            Laboratoires
           </a>
         </div>
       </div>

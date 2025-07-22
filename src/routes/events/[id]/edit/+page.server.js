@@ -16,7 +16,7 @@ export async function load({ params, locals }) {
 
   const event = await Event.findById(params.id)
   if (!event) {
-    throw error(404, 'Événement non trouvé')
+    throw error(404, 'Laboratoire non trouvé')
   }
 
   // Check if user can edit this event
@@ -25,7 +25,7 @@ export async function load({ params, locals }) {
   if (!canEdit) {
     throw error(
       403,
-      'Vous ne pouvez modifier que les événements où vous êtes enseignant'
+      'Vous ne pouvez modifier que les Laboratoires où vous êtes enseignant'
     )
   }
 
@@ -40,7 +40,7 @@ export const actions = {
 
     const event = await Event.findById(params.id)
     if (!event) {
-      throw error(404, 'Événement non trouvé')
+      throw error(404, 'Laboratoire non trouvé')
     }
 
     // Check if user can edit this event
@@ -49,7 +49,7 @@ export const actions = {
     if (!canEdit) {
       throw error(
         403,
-        'Vous ne pouvez modifier que les événements où vous êtes enseignant'
+        'Vous ne pouvez modifier que les Laboratoires où vous êtes enseignant'
       )
     }
 

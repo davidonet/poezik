@@ -5,7 +5,7 @@ export async function load({ params }) {
   const event = await Event.findById(params.id)
 
   if (!event) {
-    throw error(404, 'Événement non trouvé')
+    throw error(404, 'Laboratoire non trouvé')
   }
 
   // Fetch teacher and participant details
@@ -49,7 +49,7 @@ export const actions = {
 
     const event = await Event.findById(params.id)
     if (!event) {
-      throw error(404, 'Événement non trouvé')
+      throw error(404, 'Laboratoire non trouvé')
     }
 
     if (event.teachers.includes(locals.user._id)) {

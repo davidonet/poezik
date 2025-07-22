@@ -42,7 +42,7 @@
                 onclick={(e) => {
                   if (
                     !confirm(
-                      'Êtes-vous sûr de vouloir supprimer cet événement ?'
+                      'Êtes-vous sûr de vouloir supprimer cet Laboratoire ?'
                     )
                   ) {
                     e.preventDefault()
@@ -162,7 +162,7 @@
 
   <div class="mt-4">
     <a href="/events" class="text-terracotta-600 hover:text-terracotta-800">
-      ← Retour aux événements
+      ← Retour aux Laboratoires
     </a>
   </div>
 </div>

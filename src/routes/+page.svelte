@@ -46,9 +46,9 @@
   <div class="mx-auto max-w-7xl px-6 py-12">
     <div class="mb-12 text-center">
       <h1 class="text-terracotta-900 mb-4 text-8xl font-bold">Poezik</h1>
-      <p class="mx-auto max-w-2xl text-lg text-gray-600">
-        Un espace de laboratoire créatif autour de l'ECRITURE, de la VOIX et du
-        MOUVEMENT.
+      <p class="mx-auto max-w-2xl text-xl text-gray-700">
+        Un espace de Laboratoiree créatif autour de <br />
+        l'ECRITURE, de la VOIX et du MOUVEMENT.
       </p>
     </div>
 
@@ -78,16 +78,18 @@
         <a
           href="/auth/login"
           class="bg-terracotta-600 hover:bg-terracotta-700 inline-flex items-center rounded-md border border-transparent px-6 py-3 text-base font-medium text-white shadow-sm">
-          Se connecter pour s'inscrire aux événements
+          Se connecter pour s'inscrire aux Laboratoires
         </a>
       </div>
     {/if}
 
     <div class="relative">
-      <h2 class="mb-6 text-2xl font-bold text-gray-900">Événements à venir</h2>
+      <h2 class="mb-6 text-2xl font-bold text-gray-900">
+        Laboratoires à venir
+      </h2>
 
       {#if data.events.length === 0}
-        <p class="text-gray-500">Aucun événement à venir prévu.</p>
+        <p class="text-gray-500">Aucun Laboratoire à venir prévu.</p>
       {:else}
         <div class="relative">
           {#if canScrollLeft}
@@ -226,7 +228,7 @@
       <a
         href="/events"
         class="text-terracotta-600 hover:text-terracotta-800 font-medium">
-        Voir tous les événements →
+        Voir tous les Laboratoires →
       </a>
     </div>
   </div>

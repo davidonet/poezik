@@ -7,18 +7,18 @@
 
 <div class="mx-auto max-w-6xl p-6">
   <div class="mb-8 flex items-center justify-between">
-    <h1 class="text-3xl font-bold">Événements à venir</h1>
+    <h1 class="text-3xl font-bold">Laboratoires à venir</h1>
     {#if data.user?.isAdmin}
       <a
         href="/events/new"
         class="bg-terracotta-600 hover:bg-terracotta-700 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white">
-        Créer un événement
+        Créer un Laboratoire
       </a>
     {/if}
   </div>
 
   {#if data.events.length === 0}
-    <p class="text-gray-500">Aucun événement à venir prévu.</p>
+    <p class="text-gray-500">Aucun Laboratoire à venir prévu.</p>
   {:else}
     <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {#each data.events as event}
