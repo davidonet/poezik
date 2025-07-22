@@ -1,36 +1,31 @@
 import { nanoid } from 'nanoid'
-import { getCollection } from './db.js'
+import db from './db.js'
 
 export const User = {
   async create(data) {
-    const users = await getCollection('users')
     const user = {
       _id: nanoid(),
       ...data,
       isAdmin: data.isAdmin || false,
     }
-    await users.insertOne(user)
+    await db.users.insertOne(user)
     return user
   },
 
   async findById(id) {
-    const users = await getCollection('users')
-    return users.findOne({ _id: id })
+    return db.users.findOne({ _id: id })
   },
 
   async findByEmail(email) {
-    const users = await getCollection('users')
-    return users.findOne({ email })
+    return db.users.findOne({ email })
   },
 
   async findAll() {
-    const users = await getCollection('users')
-    return users.find({}).sort({ name: 1 }).toArray()
+    return db.users.find({}).sort({ name: 1 }).toArray()
   },
 
   async update(id, data) {
-    const users = await getCollection('users')
-    const result = await users.findOneAndUpdate(
+    const result = await db.users.findOneAndUpdate(
       { _id: id },
       { $set: data },
       { returnDocument: 'after' }
@@ -39,14 +34,12 @@ export const User = {
   },
 
   async delete(id) {
-    const users = await getCollection('users')
-    return users.deleteOne({ _id: id })
+    return db.users.deleteOne({ _id: id })
   },
 }
 
 export const Event = {
   async create(data) {
-    const events = await getCollection('events')
     const event = {
       _id: nanoid(),
       ...data,
@@ -54,24 +47,20 @@ export const Event = {
       participants: [],
       waitingList: [],
     }
-    await events.insertOne(event)
+    await db.events.insertOne(event)
     return event
   },
 
   async findById(id) {
-    const events = await getCollection('events')
-    return events.findOne({ _id: id })
+    return db.events.findOne({ _id: id })
   },
 
   async findAll(query = {}) {
-    const events = await getCollection('events')
-    return events.find(query).sort({ date: 1 }).toArray()
+    return db.events.find(query).sort({ date: 1 }).toArray()
   },
 
   async findUpcoming() {
-    const events = await getCollection('events')
-
-    return events
+    return db.events
       .aggregate([
         {
           $match: { date: { $gte: new Date() } },
@@ -125,8 +114,7 @@ export const Event = {
   },
 
   async update(id, data) {
-    const events = await getCollection('events')
-    const result = await events.findOneAndUpdate(
+    const result = await db.events.findOneAndUpdate(
       { _id: id },
       { $set: data },
       { returnDocument: 'after' }
@@ -135,8 +123,7 @@ export const Event = {
   },
 
   async addTeacher(eventId, userId) {
-    const events = await getCollection('events')
-    return events.findOneAndUpdate(
+    return db.events.findOneAndUpdate(
       { _id: eventId, $expr: { $lt: [{ $size: '$teachers' }, 2] } },
       { $addToSet: { teachers: userId } },
       { returnDocument: 'after' }
@@ -144,8 +131,7 @@ export const Event = {
   },
 
   async removeTeacher(eventId, userId) {
-    const events = await getCollection('events')
-    return events.findOneAndUpdate(
+    return db.events.findOneAndUpdate(
       { _id: eventId },
       { $pull: { teachers: userId } },
       { returnDocument: 'after' }
@@ -153,19 +139,18 @@ export const Event = {
   },
 
   async addParticipant(eventId, userId) {
-    const events = await getCollection('events')
-    const event = await events.findOne({ _id: eventId })
+    const event = await db.events.findOne({ _id: eventId })
 
     if (!event) return null
 
     if (event.participants.length < 14) {
-      return events.findOneAndUpdate(
+      return db.events.findOneAndUpdate(
         { _id: eventId },
         { $addToSet: { participants: userId } },
         { returnDocument: 'after' }
       )
     } else {
-      return events.findOneAndUpdate(
+      return db.events.findOneAndUpdate(
         { _id: eventId },
         { $addToSet: { waitingList: userId } },
         { returnDocument: 'after' }
@@ -174,8 +159,7 @@ export const Event = {
   },
 
   async removeParticipant(eventId, userId) {
-    const events = await getCollection('events')
-    const result = await events.findOneAndUpdate(
+    const result = await db.events.findOneAndUpdate(
       { _id: eventId },
       { $pull: { participants: userId, waitingList: userId } },
       { returnDocument: 'after' }
@@ -187,7 +171,7 @@ export const Event = {
       result.participants.length < 14
     ) {
       const nextUserId = result.waitingList[0]
-      await events.findOneAndUpdate(
+      await db.events.findOneAndUpdate(
         { _id: eventId },
         {
           $pull: { waitingList: nextUserId },
@@ -200,7 +184,6 @@ export const Event = {
   },
 
   async delete(id) {
-    const events = await getCollection('events')
-    return events.deleteOne({ _id: id })
+    return db.events.deleteOne({ _id: id })
   },
 }

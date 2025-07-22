@@ -1,23 +1,45 @@
-import { building } from '$app/environment'
 import { env } from '$env/dynamic/private'
 import { MongoClient } from 'mongodb'
 
-let client
-let clientPromise
+class MongoPoezik {
+  constructor() {
+    this.db = null
+    this._client = null
+  }
 
-if (!building && !global._mongoClientPromise) {
-  client = new MongoClient(env.MONGODB_URI)
-  global._mongoClientPromise = client.connect()
+  init() {
+    if (!this.db) {
+      this._client = new MongoClient(env.MONGODB_URI)
+      this.db = this._client.db('poezik')
+    }
+  }
+
+  get client() {
+    this.init()
+    return this._client
+  }
+
+  // Add collection getters for your specific collections
+  get events() {
+    this.init()
+    return this.db.collection('events')
+  }
+
+  get users() {
+    this.init()
+    return this.db.collection('users')
+  }
+
+  get sessions() {
+    this.init()
+    return this.db.collection('sessions')
+  }
+
+  // Generic collection getter
+  getCollection(name) {
+    this.init()
+    return this.db.collection(name)
+  }
 }
 
-clientPromise = global._mongoClientPromise
-
-export async function getDB() {
-  const client = await clientPromise
-  return client.db('poezik')
-}
-
-export async function getCollection(name) {
-  const db = await getDB()
-  return db.collection(name)
-}
+export default new MongoPoezik()

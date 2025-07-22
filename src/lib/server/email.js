@@ -18,20 +18,20 @@ export async function sendMagicLinkEmail(email, token) {
         email: email,
       },
     ],
-    subject: 'Your magic link for Poezik',
+    subject: 'Votre lien magique pour Poezik',
     html: `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1>Welcome to Poezik</h1>
-        <p>Click the link below to sign in:</p>
+        <h1>Bienvenue sur Poezik</h1>
+        <p>Cliquez sur le lien ci-dessous pour vous connecter :</p>
         <a href="${magicLink}" style="display: inline-block; background: #000; color: #fff; padding: 12px 24px; text-decoration: none; border-radius: 6px;">
-          Sign in to Poezik
+          Se connecter à Poezik
         </a>
         <p style="margin-top: 20px; color: #666;">
-          This link will expire in 15 days. If you didn't request this email, you can safely ignore it.
+          Ce lien expirera dans 15 jours. Si vous n'avez pas demandé cet email, vous pouvez l'ignorer en toute sécurité.
         </p>
       </div>
     `,
-    text: `Sign in to Poezik: ${magicLink}\n\nThis link will expire in 15 days.`,
+    text: `Se connecter à Poezik : ${magicLink}\n\nCe lien expirera dans 15 jours.`,
     project_id: SCW_DEFAULT_PROJECT_ID,
   }
 
