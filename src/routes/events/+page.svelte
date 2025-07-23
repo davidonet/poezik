@@ -12,13 +12,21 @@
 <div class="mx-auto max-w-6xl p-6">
   <div class="mb-8 flex items-center justify-between">
     <h1 class="text-3xl font-bold">Laboratoires à venir</h1>
-    {#if data.user?.isAdmin}
+    <div class="flex gap-3">
       <a
-        href="/events/new"
-        class="bg-terracotta-600 hover:bg-terracotta-700 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white">
-        Créer un Laboratoire
+        href="/calendar"
+        class="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+        title="S'abonner au calendrier global">
+        📅 S'abonner au calendrier
       </a>
-    {/if}
+      {#if data.user?.isAdmin}
+        <a
+          href="/events/new"
+          class="bg-terracotta-600 hover:bg-terracotta-700 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white">
+          Créer un Laboratoire
+        </a>
+      {/if}
+    </div>
   </div>
 
   {#if data.events.length === 0}
