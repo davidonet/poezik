@@ -34,7 +34,7 @@ function generateGlobalICalContent(events, origin = 'http://localhost:5173') {
     'METHOD:PUBLISH',
     'X-WR-CALNAME:Poezik - Laboratoires',
     'X-WR-CALDESC:Calendrier des laboratoires Poezik',
-    'X-WR-TIMEZONE:Europe/Paris',
+    'X-WR-TIMEZONE:GMT',
   ]
 
   for (const event of events) {
