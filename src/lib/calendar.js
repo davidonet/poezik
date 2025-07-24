@@ -2,8 +2,6 @@
  * Utility functions for generating calendar links
  */
 
-process.env.TZ = 'Europe/Paris'
-
 /**
  * Format a date for calendar URLs (YYYYMMDDTHHMMSSZ)
  */

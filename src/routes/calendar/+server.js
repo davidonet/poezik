@@ -7,7 +7,7 @@ function formatDateForCalendar(date) {
   return date
     .toISOString()
     .replace(/[-:]/g, '')
-    .replace(/\.\d{3}/, '')
+    .replace(/\.\d{3}Z/, '')
 }
 
 /**
@@ -40,11 +40,8 @@ function generateGlobalICalContent(events, origin = 'http://localhost:5173') {
   for (const event of events) {
     const startDate = new Date(event.date)
     // Set start time to 20:00 Paris time
-    const parisTime = new Date(
-      startDate.toLocaleString('en-US', { timeZone: 'Europe/Paris' })
-    )
-    parisTime.setHours(20, 0, 0, 0)
-    startDate.setTime(parisTime.getTime())
+    startDate.setUTCHours(20, 0, 0, 0)
+    //startDate.setTime(parisTime.getTime())
     // Assume 2 hour duration if no end time is specified
     const endDate = new Date(startDate.getTime() + 2 * 60 * 60 * 1000)
 
@@ -57,8 +54,8 @@ function generateGlobalICalContent(events, origin = 'http://localhost:5173') {
     lines.push(
       'BEGIN:VEVENT',
       `UID:${event._id}@poezik.app`,
-      `DTSTART:${formatDateForCalendar(startDate)}`,
-      `DTEND:${formatDateForCalendar(endDate)}`,
+      `DTSTART:TZID=Europe/Paris:${formatDateForCalendar(startDate)}`,
+      `DTEND:TZID=Europe/Paris:${formatDateForCalendar(endDate)}`,
       `DTSTAMP:${formatDateForCalendar(new Date())}`,
       `SUMMARY:${escapeCalendarText(event.title)}`,
       `DESCRIPTION:${description}`,
