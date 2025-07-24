@@ -1,5 +1,5 @@
 import { Event } from '$lib/server/models.js'
-
+import { DateTime } from 'luxon'
 /**
  * Format a date for calendar URLs (YYYYMMDDTHHMMSSZ)
  */
@@ -7,7 +7,7 @@ function formatDateForCalendar(date) {
   return date
     .toISOString()
     .replace(/[-:]/g, '')
-    .replace(/\.\d{3}Z/, '')
+    .replace(/\.\d{3}/, '')
 }
 
 /**
@@ -38,12 +38,17 @@ function generateGlobalICalContent(events, origin = 'http://localhost:5173') {
   ]
 
   for (const event of events) {
-    const startDate = new Date(event.date)
-    // Set start time to 20:00 Paris time
-    startDate.setUTCHours(20, 0, 0, 0)
-    //startDate.setTime(parisTime.getTime())
-    // Assume 2 hour duration if no end time is specified
-    const endDate = new Date(startDate.getTime() + 2 * 60 * 60 * 1000)
+    const startDate = DateTime.fromJSDate(event.date, {
+      zone: 'Europe/Paris',
+    })
+      .set({ hour: 20, minute: 0, second: 0, millisecond: 0 })
+      .toUTC()
+      .toJSDate()
+
+    const endDate = DateTime.fromJSDate(event.date, { zone: 'Europe/Paris' })
+      .set({ hour: 22, minute: 0, second: 0, millisecond: 0 })
+      .toUTC()
+      .toJSDate()
 
     // Add teacher info to description if available
     let description = escapeCalendarText(event.description)
@@ -54,8 +59,8 @@ function generateGlobalICalContent(events, origin = 'http://localhost:5173') {
     lines.push(
       'BEGIN:VEVENT',
       `UID:${event._id}@poezik.app`,
-      `DTSTART:TZID=Europe/Paris:${formatDateForCalendar(startDate)}`,
-      `DTEND:TZID=Europe/Paris:${formatDateForCalendar(endDate)}`,
+      `DTSTART:${formatDateForCalendar(startDate)}`,
+      `DTEND:${formatDateForCalendar(endDate)}`,
       `DTSTAMP:${formatDateForCalendar(new Date())}`,
       `SUMMARY:${escapeCalendarText(event.title)}`,
       `DESCRIPTION:${description}`,

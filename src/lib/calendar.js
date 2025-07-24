@@ -1,6 +1,4 @@
-/**
- * Utility functions for generating calendar links
- */
+import { DateTime } from 'luxon'
 
 /**
  * Format a date for calendar URLs (YYYYMMDDTHHMMSSZ)
@@ -29,15 +27,17 @@ function escapeCalendarText(text) {
  */
 export function generateGoogleCalendarUrl(event) {
   try {
-    const startDate = new Date(event.date)
-    // Set to 20:00 Paris time
-    const parisTime = new Date(
-      startDate.toLocaleString('en-US', { timeZone: 'Europe/Paris' })
-    )
-    parisTime.setHours(20, 0, 0, 0)
-    startDate.setTime(parisTime.getTime())
-    // Assume 2 hour duration if no end time is specified
-    const endDate = new Date(startDate.getTime() + 2 * 60 * 60 * 1000)
+    const startDate = DateTime.fromJSDate(event.date, {
+      zone: 'Europe/Paris',
+    })
+      .set({ hour: 20, minute: 0, second: 0, millisecond: 0 })
+      .toUTC()
+      .toJSDate()
+
+    const endDate = DateTime.fromJSDate(event.date, { zone: 'Europe/Paris' })
+      .set({ hour: 22, minute: 0, second: 0, millisecond: 0 })
+      .toUTC()
+      .toJSDate()
 
     const params = new URLSearchParams({
       action: 'TEMPLATE',
@@ -58,15 +58,17 @@ export function generateGoogleCalendarUrl(event) {
  * Generate an Apple Calendar (iCal) content for an event
  */
 function generateICalContent(event) {
-  const startDate = new Date(event.date)
-  // Set start time to 20:00 Paris time
-  const parisTime = new Date(
-    startDate.toLocaleString('en-US', { timeZone: 'Europe/Paris' })
-  )
-  parisTime.setHours(20, 0, 0, 0)
-  startDate.setTime(parisTime.getTime())
-  // Assume 2 hour duration if no end time is specified
-  const endDate = new Date(startDate.getTime() + 2 * 60 * 60 * 1000)
+  const startDate = DateTime.fromJSDate(event.date, {
+    zone: 'Europe/Paris',
+  })
+    .set({ hour: 20, minute: 0, second: 0, millisecond: 0 })
+    .toUTC()
+    .toJSDate()
+
+  const endDate = DateTime.fromJSDate(event.date, { zone: 'Europe/Paris' })
+    .set({ hour: 22, minute: 0, second: 0, millisecond: 0 })
+    .toUTC()
+    .toJSDate()
 
   // iCal format
   return [
