@@ -68,7 +68,7 @@
 
     <div class="grid gap-8 md:grid-cols-2">
       <div>
-        <h2 class="mb-4 text-xl font-semibold">
+        <h2 class="text-terracotta-800 mb-4 text-xl font-semibold">
           Animateurs ({data.event.teachers.length}/2)
         </h2>
         {#if data.teachers.length === 0}
@@ -103,7 +103,7 @@
       </div>
 
       <div>
-        <h2 class="mb-4 text-xl font-semibold">
+        <h2 class="text-terracotta-800 mb-4 text-xl font-semibold">
           Participants ({data.event.participants.length}/14)
         </h2>
         {#if data.participants.length === 0}
