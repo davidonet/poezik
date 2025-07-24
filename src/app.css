@@ -1,10 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 @import './style/stylesheet.css';
 
 @theme {
-  --default-font-family: 'Sugar&Vinegar', sans-serif;
-  --default-background: var(--color-cream-100);
+  --default-font-family: 'Poppins', sans-serif;
+  --font-title: 'Sugar&Vinegar', sans-serif;
 
   --color-terracotta-50: #fdf6f4;
   --color-terracotta-100: #faeae5;
@@ -29,4 +30,10 @@
   --color-cream-800: #a08f7b;
   --color-cream-900: #7d6f5f;
   --color-cream-950: #3f3932;
+}
+
+@layer base {
+  html {
+    @apply bg-cream-100;
+  }
 }

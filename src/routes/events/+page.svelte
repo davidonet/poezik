@@ -36,7 +36,9 @@
       {#each data.events as event}
         <div
           class="border-terracotta-700 bg-cream-400 rounded-lg border-2 p-6 shadow-md">
-          <h2 class="mb-2 text-xl font-semibold">{event.title}</h2>
+          <h2 class="font-title text-terracotta-900 mb-2 text-xl font-semibold">
+            {event.title}
+          </h2>
           <p class="mb-4 text-gray-600">{event.description}</p>
           <p class="mb-4 text-sm text-gray-500">
             {format(new Date(event.date), 'PPP', { locale: fr })}

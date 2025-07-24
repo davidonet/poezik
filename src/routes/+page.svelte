@@ -44,7 +44,7 @@
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
     <div class="mb-12 text-center">
       <h1
-        class="text-terracotta-900 mb-4 text-4xl font-bold sm:text-6xl lg:text-8xl">
+        class="font-title text-terracotta-900 mb-4 text-4xl font-bold sm:text-6xl lg:text-8xl">
         Poezik
       </h1>
       <p class="mx-auto max-w-2xl text-lg text-gray-700 sm:text-xl">
@@ -130,7 +130,8 @@
                     </span>
                   {/if}
                 </p>
-                <h3 class="text-terracotta-900 mb-2 text-2xl font-semibold">
+                <h3
+                  class="text-terracotta-900 font-title mb-2 text-2xl font-semibold">
                   {event.title}
                 </h3>
                 <p class="mb-4 line-clamp-3 text-gray-600">
