@@ -61,10 +61,13 @@ export const Event = {
   },
 
   async findUpcoming() {
+    const yesterday = new Date()
+    yesterday.setDate(yesterday.getDate() - 1)
+
     return db.events
       .aggregate([
         {
-          $match: { date: { $gte: new Date() } },
+          $match: { date: { $gte: yesterday } },
         },
 
         {
