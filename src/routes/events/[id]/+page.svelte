@@ -50,7 +50,9 @@
           {data.event.title}
         </h1>
         <p class="text-gray-600">
-          {format(new Date(data.event.date), 'PPPp', { locale: fr })}
+          {format(new Date(data.event.date).setHours(20, 0, 0), 'PPPp', {
+            locale: fr,
+          })}
         </p>
       </div>
       {#if canEdit}
