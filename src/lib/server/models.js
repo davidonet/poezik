@@ -46,6 +46,7 @@ export const Event = {
       teachers: [],
       participants: [],
       waitingList: [],
+      checkIns: {},
     }
     await db.events.insertOne(event)
     return event
@@ -185,5 +186,18 @@ export const Event = {
 
   async delete(id) {
     return db.events.deleteOne({ _id: id })
+  },
+
+  async updateCheckIn(eventId, userId, checkInData) {
+    return db.events.findOneAndUpdate(
+      { _id: eventId },
+      { $set: { [`checkIns.${userId}`]: checkInData } },
+      { returnDocument: 'after' }
+    )
+  },
+
+  async getCheckIns(eventId) {
+    const event = await db.events.findOne({ _id: eventId })
+    return event?.checkIns || {}
   },
 }

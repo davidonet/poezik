@@ -37,7 +37,7 @@ export const actions = {
     } catch (error) {
       console.error('Auth error:', error)
       return fail(500, {
-        error: 'Échec de l\'envoi du lien magique. Veuillez réessayer.',
+        error: "Échec de l'envoi du lien magique. Veuillez réessayer.",
       })
     }
   },

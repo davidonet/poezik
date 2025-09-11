@@ -48,7 +48,8 @@
         Poezik
       </h1>
       <p class="mx-auto max-w-2xl text-lg text-gray-700 sm:text-xl">
-        Un espace de Laboratoire créatif autour<br />
+        Un espace de Laboratoire créatif autour
+        <br />
         de l'écriture ✏️ , de la voix 📣 et du mouvement 🤸🏼‍♂️.
       </p>
     </div>

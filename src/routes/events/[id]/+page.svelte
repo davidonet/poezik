@@ -20,6 +20,15 @@
     userIsTeacher || userIsParticipant || userIsWaitlisted
   )
   let canEdit = $derived(data.user?.isAdmin || userIsTeacher)
+
+  // Check if today is the event day (for admin check-in functionality)
+  let isEventDay = $derived(() => {
+    const today = new Date()
+    const eventDate = new Date(data.event.date)
+    return today.toDateString() === eventDate.toDateString()
+  })
+
+  let showCheckIn = $derived(data.user?.isAdmin && isEventDay)
 </script>
 
 <div class="mx-auto max-w-4xl p-6">
@@ -145,6 +154,148 @@
         {/if}
       </div>
     </div>
+
+    {#if showCheckIn}
+      <div class="mt-8 border-t pt-8">
+        <h2 class="text-terracotta-800 mb-6 text-xl font-semibold">
+          Présences du jour - Administration
+        </h2>
+
+        <div class="space-y-6">
+          {#if data.teachers.length > 0}
+            <div>
+              <h3 class="text-terracotta-700 mb-3 text-lg font-medium">
+                Animateurs
+              </h3>
+              <div class="space-y-3">
+                {#each data.teachers as teacher}
+                  {@const checkIn = data.checkIns[teacher._id] || {}}
+                  <div class="bg-cream-100 rounded-lg p-4">
+                    <div class="mb-3 flex items-center justify-between">
+                      <div class="flex items-center gap-3">
+                        {#if teacher.photo}
+                          <img
+                            src={teacher.photo}
+                            alt=""
+                            class="h-10 w-10 rounded-full" />
+                        {/if}
+                        <span class="font-medium">{teacher.name}</span>
+                      </div>
+                    </div>
+
+                    <form
+                      method="POST"
+                      action="?/updateCheckIn"
+                      use:enhance
+                      class="space-y-3">
+                      <input type="hidden" name="userId" value={teacher._id} />
+
+                      <div class="flex gap-6">
+                        <label class="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            name="isPresent"
+                            checked={checkIn.isPresent || false}
+                            class="rounded border-gray-300" />
+                          <span class="text-sm">Présent</span>
+                        </label>
+                      </div>
+
+                      <div>
+                        <input
+                          type="text"
+                          name="comment"
+                          placeholder="Note"
+                          value={checkIn.comment || ''}
+                          class="w-full rounded-md border-1 border-gray-300 p-2 text-sm" />
+                      </div>
+
+                      <button
+                        type="submit"
+                        class="bg-terracotta-600 hover:bg-terracotta-700 rounded-md px-3 py-2 text-sm font-medium text-white">
+                        Sauvegarder
+                      </button>
+                    </form>
+                  </div>
+                {/each}
+              </div>
+            </div>
+          {/if}
+
+          {#if data.participants.length > 0}
+            <div>
+              <h3 class="text-terracotta-700 mb-3 text-lg font-medium">
+                Participants
+              </h3>
+              <div class="space-y-3">
+                {#each data.participants as participant}
+                  {@const checkIn = data.checkIns[participant._id] || {}}
+                  <div class="bg-cream-100 rounded-lg p-4">
+                    <div class="mb-3 flex items-center justify-between">
+                      <div class="flex items-center gap-3">
+                        {#if participant.photo}
+                          <img
+                            src={participant.photo}
+                            alt=""
+                            class="h-10 w-10 rounded-full" />
+                        {/if}
+                        <span class="font-medium">{participant.name}</span>
+                      </div>
+                    </div>
+
+                    <form
+                      method="POST"
+                      action="?/updateCheckIn"
+                      use:enhance
+                      class="space-y-3">
+                      <input
+                        type="hidden"
+                        name="userId"
+                        value={participant._id} />
+
+                      <div class="flex gap-6">
+                        <label class="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            name="isPresent"
+                            checked={checkIn.isPresent || false}
+                            class="rounded border-gray-300" />
+                          <span class="text-sm">Présent</span>
+                        </label>
+
+                        <label class="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            name="hasPaid"
+                            checked={checkIn.hasPaid || false}
+                            class="rounded border-gray-300" />
+                          <span class="text-sm">Payé</span>
+                        </label>
+                      </div>
+
+                      <div>
+                        <input
+                          type="text"
+                          name="comment"
+                          placeholder="Note"
+                          value={checkIn.comment || ''}
+                          class="w-full rounded-md border-1 border-gray-300 p-2 text-sm" />
+                      </div>
+
+                      <button
+                        type="submit"
+                        class="bg-terracotta-600 hover:bg-terracotta-700 rounded-md px-3 py-2 text-sm font-medium text-white">
+                        Sauvegarder
+                      </button>
+                    </form>
+                  </div>
+                {/each}
+              </div>
+            </div>
+          {/if}
+        </div>
+      </div>
+    {/if}
 
     {#if userIsRegistered}
       <div class="mt-8 border-t pt-8">

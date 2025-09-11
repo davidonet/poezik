@@ -16,10 +16,14 @@ export async function load({ params }) {
     event.participants.map((id) => User.findById(id))
   )
 
+  // Get check-in data
+  const checkIns = await Event.getCheckIns(params.id)
+
   return {
     event,
     teachers: teachers.filter(Boolean),
     participants: participants.filter(Boolean),
+    checkIns,
   }
 }
 
@@ -68,5 +72,27 @@ export const actions = {
 
     await Event.delete(params.id)
     throw redirect(303, '/events')
+  },
+
+  updateCheckIn: async ({ request, params, locals }) => {
+    if (!locals.user?.isAdmin) {
+      throw error(403, 'Non autorisé')
+    }
+
+    const formData = await request.formData()
+    const userId = formData.get('userId')
+    const isPresent = formData.get('isPresent') === 'on'
+    const hasPaid = formData.get('hasPaid') === 'on'
+    const comment = formData.get('comment') || ''
+
+    const checkInData = {
+      isPresent,
+      hasPaid,
+      comment,
+      updatedAt: new Date().toISOString(),
+    }
+
+    await Event.updateCheckIn(params.id, userId, checkInData)
+    return { success: true }
   },
 }
