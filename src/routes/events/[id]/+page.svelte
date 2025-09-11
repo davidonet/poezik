@@ -307,12 +307,15 @@
                         </label>
 
                         <label class="flex items-center gap-2">
+                          <span class="text-sm">Montant payé:</span>
                           <input
-                            type="checkbox"
-                            name="hasPaid"
-                            checked={checkIn.hasPaid || false}
-                            class="rounded border-gray-300" />
-                          <span class="text-sm">Payé</span>
+                            type="number"
+                            name="amount"
+                            value={checkIn.amount || 10}
+                            min="0"
+                            step="0.01"
+                            class="w-20 rounded border-gray-300 p-1 text-sm" />
+                          <span class="text-sm">€</span>
                         </label>
                       </div>
 

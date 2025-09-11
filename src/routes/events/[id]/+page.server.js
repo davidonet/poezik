@@ -84,12 +84,12 @@ export const actions = {
     const formData = await request.formData()
     const userId = formData.get('userId')
     const isPresent = formData.get('isPresent') === 'on'
-    const hasPaid = formData.get('hasPaid') === 'on'
+    const amount = parseFloat(formData.get('amount')) || 0
     const comment = formData.get('comment') || ''
 
     const checkInData = {
       isPresent,
-      hasPaid,
+      amount,
       comment,
       updatedAt: new Date().toISOString(),
     }
