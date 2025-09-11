@@ -29,6 +29,17 @@
   })
 
   let showCheckIn = $derived(data.user?.isAdmin && isEventDay)
+
+  // Get users not registered for this event (for admin dropdown)
+  let unregisteredUsers = $derived.by(() => {
+    if (!data.allUsers) return []
+    const registeredUserIds = new Set([
+      ...data.event.teachers,
+      ...data.event.participants,
+      ...data.event.waitingList,
+    ])
+    return data.allUsers.filter((user) => !registeredUserIds.has(user._id))
+  })
 </script>
 
 <div class="mx-auto max-w-4xl p-6">
@@ -160,6 +171,38 @@
         <h2 class="text-terracotta-800 mb-6 text-xl font-semibold">
           Présences du jour - Administration
         </h2>
+
+        <!-- Add unregistered user section -->
+        {#if unregisteredUsers.length > 0}
+          <div class="mb-6 rounded-lg bg-yellow-50 p-4">
+            <h3 class="text-terracotta-700 mb-3 text-lg font-medium">
+              Ajouter un utilisateur non inscrit
+            </h3>
+            <form
+              method="POST"
+              action="?/addUnregisteredUser"
+              use:enhance
+              class="flex items-end gap-3">
+              <div class="flex-1">
+                <select
+                  name="userId"
+                  id="userId"
+                  required
+                  class="focus:border-terracotta-500 focus:ring-terracotta-500 w-full rounded-md border-1 border-gray-300 bg-gray-50 p-2 px-3 py-2 text-sm">
+                  <option value="">Choisir un utilisateur...</option>
+                  {#each unregisteredUsers as user}
+                    <option value={user._id}>{user.name}</option>
+                  {/each}
+                </select>
+              </div>
+              <button
+                type="submit"
+                class="bg-terracotta-600 hover:bg-terracotta-700 rounded-md px-4 py-2 text-sm font-medium text-white">
+                Ajouter
+              </button>
+            </form>
+          </div>
+        {/if}
 
         <div class="space-y-6">
           {#if data.teachers.length > 0}

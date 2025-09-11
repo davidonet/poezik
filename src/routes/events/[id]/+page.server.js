@@ -16,6 +16,7 @@ export async function load({ params }) {
     event.participants.map((id) => User.findById(id))
   )
 
+  const allUsers = await User.findAll()
   // Get check-in data
   const checkIns = await Event.getCheckIns(params.id)
 
@@ -23,6 +24,7 @@ export async function load({ params }) {
     event,
     teachers: teachers.filter(Boolean),
     participants: participants.filter(Boolean),
+    allUsers,
     checkIns,
   }
 }
@@ -93,6 +95,23 @@ export const actions = {
     }
 
     await Event.updateCheckIn(params.id, userId, checkInData)
+    return { success: true }
+  },
+
+  addUnregisteredUser: async ({ request, params, locals }) => {
+    if (!locals.user?.isAdmin) {
+      throw error(403, 'Non autorisé')
+    }
+
+    const formData = await request.formData()
+    const userId = formData.get('userId')
+
+    if (!userId) {
+      throw error(400, 'Utilisateur requis')
+    }
+
+    // Add the user as a participant to the event
+    await Event.addParticipant(params.id, userId)
     return { success: true }
   },
 }
