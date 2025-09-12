@@ -117,6 +117,63 @@ export const Event = {
       .toArray()
   },
 
+  async findPast() {
+    const yesterday = new Date()
+    yesterday.setDate(yesterday.getDate() - 1)
+
+    return db.events
+      .aggregate([
+        {
+          $match: { date: { $lt: yesterday } },
+        },
+
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'teachers',
+            foreignField: '_id',
+            as: 'teacherDetails',
+          },
+        },
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'participants',
+            foreignField: '_id',
+            as: 'participantDetails',
+          },
+        },
+        {
+          $set: {
+            teachers: {
+              $map: {
+                input: '$teacherDetails',
+                as: 'teacher',
+                in: '$$teacher.name',
+              },
+            },
+            participants: {
+              $map: {
+                input: '$participantDetails',
+                as: 'participant',
+                in: '$$participant.name',
+              },
+            },
+          },
+        },
+        {
+          $project: {
+            teacherDetails: 0,
+            participantDetails: 0,
+          },
+        },
+        {
+          $sort: { date: -1 },
+        },
+      ])
+      .toArray()
+  },
+
   async update(id, data) {
     const result = await db.events.findOneAndUpdate(
       { _id: id },

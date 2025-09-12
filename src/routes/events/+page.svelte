@@ -113,4 +113,55 @@
       {/each}
     </div>
   {/if}
+
+  <!-- Past Events Section -->
+  <div class="mt-12">
+    <h2 class="mb-6 text-2xl font-bold">Laboratoires passés</h2>
+
+    {#if data.pastEvents.length === 0}
+      <p class="text-gray-500">Aucun Laboratoire passé.</p>
+    {:else}
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {#each data.pastEvents as event}
+          <div
+            class="rounded-lg border-2 border-gray-300 bg-gray-50 p-6 opacity-75 shadow-md">
+            <h3 class="font-title mb-2 text-xl font-semibold text-gray-700">
+              {event.title}
+            </h3>
+            <p class="mb-4 text-gray-600">{event.description}</p>
+            <p class="mb-4 text-sm text-gray-500">
+              {format(new Date(event.date), 'PPP', { locale: fr })}
+            </p>
+
+            <div class="space-y-2 text-sm">
+              <div>
+                {#if event.teachers.length > 0}
+                  <div class="mb-2 text-sm text-gray-600">
+                    <span class="font-medium">Animé par :</span>
+                    {#each event.teachers as teacher, j}
+                      <span>
+                        {teacher}{j < event.teachers.length - 1 ? ', ' : ''}
+                      </span>
+                    {/each}
+                  </div>
+                {/if}
+              </div>
+              <div>
+                <span class="font-medium">Participants :</span>
+                {event.participants.length}/14
+              </div>
+            </div>
+
+            <div class="mt-4 flex items-center justify-between">
+              <a
+                href="/events/{event._id}"
+                class="font-medium text-gray-600 hover:text-gray-800">
+                Voir les détails →
+              </a>
+            </div>
+          </div>
+        {/each}
+      </div>
+    {/if}
+  </div>
 </div>
