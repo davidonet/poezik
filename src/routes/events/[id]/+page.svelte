@@ -316,7 +316,7 @@
                             value={checkIn.amount || 10}
                             min="0"
                             step="0.01"
-                            class="w-20 rounded border-gray-300 p-1 text-sm" />
+                            class="w-20 rounded-md border-1 border-gray-400 p-2 text-end text-sm" />
                           <span class="text-sm">€</span>
                         </label>
                       </div>
