@@ -114,4 +114,19 @@ export const actions = {
     await Event.addParticipant(params.id, userId)
     return { success: true }
   },
+
+  promoteFromWaitingList: async ({ request, params, locals }) => {
+    if (!locals.user?.isAdmin) {
+      throw error(403, 'Non autorisé')
+    }
+
+    const formData = await request.formData()
+    const userId = formData.get('userId')
+    if (!userId) {
+      throw error(400, 'Utilisateur requis')
+    }
+
+    await Event.promoteFromWaitingList(params.id, userId)
+    return { success: true }
+  },
 }

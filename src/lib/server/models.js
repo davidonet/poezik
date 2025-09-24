@@ -244,6 +244,32 @@ export const Event = {
     return result
   },
 
+  async promoteFromWaitingList(eventId, userId) {
+    const event = await db.events.findOne({ _id: eventId })
+    if (!event) return null
+
+    // If already a participant, nothing to do
+    if (event.participants.includes(userId)) return event
+
+    // Ensure the user is actually on the waiting list
+    if (!event.waitingList.includes(userId)) return event
+
+    // Enforce capacity (14 participants)
+    if (event.participants.length >= 14) return event
+
+    // Atomically move user from waitingList to participants
+    const updated = await db.events.findOneAndUpdate(
+      { _id: eventId },
+      {
+        $pull: { waitingList: userId },
+        $addToSet: { participants: userId },
+      },
+      { returnDocument: 'after' }
+    )
+
+    return updated
+  },
+
   async delete(id) {
     return db.events.deleteOne({ _id: id })
   },

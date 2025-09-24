@@ -40,6 +40,29 @@
     ])
     return data.allUsers.filter((user) => !registeredUserIds.has(user._id))
   })
+
+  // Derive waiting list user objects for display
+  let waitingUsers = $derived.by(() => {
+    const map = new Map(data.allUsers?.map((u) => [u._id, u]) || [])
+    return (data.event.waitingList || [])
+      .map((id) => map.get(id))
+      .filter(Boolean)
+  })
+
+  let hasParticipantCapacity = $derived(
+    (data.event.participants?.length || 0) < 14
+  )
+
+  // Total collected from present participants (check-ins)
+  let totalCollected = $derived.by(() => {
+    const participantIds = data.event.participants || []
+    return participantIds.reduce((sum, id) => {
+      const ci = data.checkIns?.[id]
+      if (!ci || !ci.isPresent) return sum
+      const amt = Number(ci.amount)
+      return sum + (Number.isFinite(amt) ? amt : 0)
+    }, 0)
+  })
 </script>
 
 <div class="mx-auto max-w-4xl p-6">
@@ -148,10 +171,37 @@
           </ul>
         {/if}
 
-        {#if data.event.waitingList.length > 0}
-          <p class="mb-4 text-sm text-orange-600">
-            +{data.event.waitingList.length} sur la liste d'attente
-          </p>
+        {#if waitingUsers.length > 0}
+          <div class="mb-6 rounded-lg bg-orange-50 p-4">
+            <h3 class="text-terracotta-700 mb-3 text-lg font-medium">
+              Liste d'attente ({waitingUsers.length})
+            </h3>
+            <ul class="space-y-2">
+              {#each waitingUsers as w}
+                <li class="flex items-center justify-between gap-3">
+                  <div class="flex items-center gap-2">
+                    {#if w.photo}
+                      <img src={w.photo} alt="" class="h-8 w-8 rounded-full" />
+                    {/if}
+                    <span class="text-sm">{w.name}</span>
+                  </div>
+                  {#if data.user?.isAdmin && hasParticipantCapacity}
+                    <form
+                      method="POST"
+                      action="?/promoteFromWaitingList"
+                      use:enhance>
+                      <input type="hidden" name="userId" value={w._id} />
+                      <button
+                        type="submit"
+                        class="text-terracotta-600 hover:text-terracotta-800 text-xs font-medium">
+                        Promouvoir
+                      </button>
+                    </form>
+                  {/if}
+                </li>
+              {/each}
+            </ul>
+          </div>
         {/if}
 
         {#if data.user && !userIsRegistered}
@@ -173,6 +223,13 @@
         <h2 class="text-terracotta-800 mb-6 text-xl font-semibold">
           Présences du jour - Administration
         </h2>
+
+        <p class="mb-4 text-sm text-gray-700">
+          Total encaissé: {new Intl.NumberFormat('fr-FR', {
+            style: 'currency',
+            currency: 'EUR',
+          }).format(totalCollected)}
+        </p>
 
         <!-- Add unregistered user section -->
         {#if unregisteredUsers.length > 0}
@@ -313,7 +370,7 @@
                           <input
                             type="number"
                             name="amount"
-                            value={checkIn.amount || 10}
+                            value={checkIn.amount ?? 10}
                             min="0"
                             step="0.01"
                             class="w-20 rounded-md border-1 border-gray-400 p-2 text-end text-sm" />
