@@ -8,7 +8,7 @@
   import { fr } from 'date-fns/locale'
 
   let { data } = $props()
-
+  console.log(data)
   let userIsTeacher = $derived(data.event.teachers.includes(data.user?._id))
   let userIsParticipant = $derived(
     data.event.participants.includes(data.user?._id)
@@ -165,7 +165,10 @@
                     alt=""
                     class="h-8 w-8 rounded-full" />
                 {/if}
-                <span>{participant.name}</span>
+                <span
+                  class={participant._id === data.user?._id ? 'font-bold' : ''}>
+                  {participant.name}
+                </span>
               </li>
             {/each}
           </ul>
