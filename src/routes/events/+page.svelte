@@ -35,7 +35,82 @@
     <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {#each data.events as event}
         <div
-          class="border-terracotta-700 bg-cream-400 rounded-lg border-2 p-6 shadow-md">
+          class="border-terracotta-700 bg-cream-400 relative rounded-lg border-2 p-6 shadow-md">
+          {#if event.teachers.includes(data.user?.name) || event.participants.includes(data.user?.name) || event.waitingList.includes(data.user?._id)}
+            <span class="absolute top-2 right-2">
+              {#if event.teachers.includes(data.user?.name)}
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 28 28"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="text-terracotta-700">
+                  <circle
+                    cx="14"
+                    cy="14"
+                    r="13"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    fill="white" />
+                  <path
+                    d="M9 14.5L12.5 18L19 11"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              {:else if event.waitingList.includes(data.user?._id)}
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 28 28"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="text-green-500">
+                  <circle
+                    cx="14"
+                    cy="14"
+                    r="13"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    fill="white"
+                    stroke-dasharray="4 2" />
+                  <text
+                    x="14"
+                    y="19"
+                    text-anchor="middle"
+                    font-size="16"
+                    fill="currentColor"
+                    font-family="sans-serif">
+                    ?
+                  </text>
+                </svg>
+              {:else}
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 28 28"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="text-green-500">
+                  <circle
+                    cx="14"
+                    cy="14"
+                    r="13"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    fill="white" />
+                  <path
+                    d="M9 14.5L12.5 18L19 11"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              {/if}
+            </span>
+          {/if}
           <h2 class="font-title text-terracotta-900 mb-2 text-xl font-semibold">
             {event.title}
           </h2>
@@ -124,7 +199,33 @@
       <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {#each data.pastEvents as event}
           <div
-            class="rounded-lg border-2 border-gray-300 bg-gray-50 p-6 opacity-75 shadow-md">
+            class="relative rounded-lg border-2 border-gray-300 bg-gray-50 p-6 opacity-75 shadow-md">
+            {#if [...event.teachers, ...event.participants].includes(data.user?.name)}
+              <!-- Coche dans un rond en haut à droite -->
+              <span class="absolute top-2 right-2">
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 28 28"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="text-gray-300">
+                  <circle
+                    cx="14"
+                    cy="14"
+                    r="13"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    fill="white" />
+                  <path
+                    d="M9 14.5L12.5 18L19 11"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </span>
+            {/if}
             <h3 class="font-title mb-2 text-xl font-semibold text-gray-700">
               {event.title}
             </h3>
