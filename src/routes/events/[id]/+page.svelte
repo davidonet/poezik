@@ -8,7 +8,7 @@
   import { fr } from 'date-fns/locale'
 
   let { data } = $props()
-  console.log(data)
+
   let userIsTeacher = $derived(data.event.teachers.includes(data.user?._id))
   let userIsParticipant = $derived(
     data.event.participants.includes(data.user?._id)
@@ -417,7 +417,7 @@
         <form method="POST" action="?/unregister" use:enhance>
           <button
             type="submit"
-            class="text--terracotta--600 hover:text--terracotta--800 text-sm font-medium">
+            class="text--terracotta--600 hover:text--terracotta--800 cursor-pointer text-sm font-medium">
             Annuler l'inscription
           </button>
         </form>
